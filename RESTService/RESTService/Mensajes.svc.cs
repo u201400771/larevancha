@@ -21,10 +21,10 @@ namespace RESTService
             int horasola = int.Parse(reader.ReadToEnd());
             
             if (horasola < 12)
-                return "Buenos dias" + horasola.ToString();
+                return "Buenos dias son las " + horasola.ToString();
             else if (horasola < 19)
-                return "Buenas tardes" + horasola.ToString(); 
-                else return "Buenas noches" + horasola.ToString();
+                return "Buenas tardes son las " + horasola.ToString(); 
+                else return "Buenas noches son las " + horasola.ToString();
         }
 
     }
