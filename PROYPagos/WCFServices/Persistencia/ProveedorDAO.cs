@@ -14,7 +14,7 @@ namespace WCFServices.Persistencia
         public Proveedor Crear(Proveedor proveedorACrear)
         {
             Proveedor proveedorCreado = null;
-            string sql = "INSERT INTO tbl_Proveedor VALUES (@Ruc,@Tipo,@Razon,@Telefono,@EMail)";
+            string sql = "INSERT INTO TBL_PROVEEDOR VALUES (@Ruc,@Tipo,@Razon,@Telefono,@EMail)";
             using (SqlConnection conexion = new SqlConnection(CadenaConexion))
             {
                 conexion.Open();
