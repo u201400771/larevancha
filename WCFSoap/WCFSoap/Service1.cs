@@ -13,7 +13,7 @@ namespace WCFSoap
         {
             return string.Format("You entered: {0}", value);
         }
-        //hola prueba
+        
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
             if (composite == null)
