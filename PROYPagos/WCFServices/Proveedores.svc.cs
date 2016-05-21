@@ -40,8 +40,7 @@ namespace WCFServices
         public int EliminarProveedor(string ruc)
         {
             return proveedorDAO.Eliminar(ruc);
-        }
-        
+        }        
         public List<Proveedor> ListarProveedores()
         {
             return proveedorDAO.Listar();
