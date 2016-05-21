@@ -1,0 +1,12 @@
+E:\DSD\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.dll.config
+E:\DSD\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.dll
+E:\DSD\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.pdb
+E:\DSD\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.csprojResolveAssemblyReference.cache
+E:\DSD\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.dll
+E:\DSD\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.pdb
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.dll.config
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.dll
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\bin\Debug\WCFServicesTest.pdb
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.csprojResolveAssemblyReference.cache
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.dll
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServicesTest\obj\Debug\WCFServicesTest.pdb
