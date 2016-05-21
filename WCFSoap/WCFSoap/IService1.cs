@@ -17,7 +17,7 @@ namespace WCFSoap
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
-        // TODO: agregue aquí sus operaciones de servicio
+        // TODO: agregar aquí sus operaciones de servicio
     }
 
      [DataContract]
