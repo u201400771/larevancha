@@ -20,7 +20,7 @@ namespace WCFSoap
             {
                 throw new ArgumentNullException("composite");
             }
-            if (composite.BoolValue)
+            if (composite.BoolValue1)
             {
                 composite.StringValue += "Suffix";
             }
