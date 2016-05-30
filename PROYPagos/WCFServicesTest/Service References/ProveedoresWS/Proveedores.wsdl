@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Proveedores" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:62083/Proveedores.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:62083/Proveedores.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WCFServices.Errores" />
+      <xsd:import schemaLocation="http://localhost:62083/Proveedores.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:62083/Proveedores.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFServices.Dominio" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IProveedores_CrearProveedor_InputMessage">
+    <wsdl:part name="parameters" element="tns:CrearProveedor" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_CrearProveedor_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CrearProveedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_CrearProveedor_RepetidoExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/WCFServices.Errores" name="detail" element="q1:RepetidoException" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ObtenerProveedor_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerProveedor" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ObtenerProveedor_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerProveedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ModificarProveedor_InputMessage">
+    <wsdl:part name="parameters" element="tns:ModificarProveedor" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ModificarProveedor_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ModificarProveedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_EliminarProveedor_InputMessage">
+    <wsdl:part name="parameters" element="tns:EliminarProveedor" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_EliminarProveedor_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EliminarProveedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ListarProveedores_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarProveedores" />
+  </wsdl:message>
+  <wsdl:message name="IProveedores_ListarProveedores_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarProveedoresResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IProveedores">
+    <wsdl:operation name="CrearProveedor">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProveedores/CrearProveedor" message="tns:IProveedores_CrearProveedor_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProveedores/CrearProveedorResponse" message="tns:IProveedores_CrearProveedor_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IProveedores/CrearProveedorRepetidoExceptionFault" name="RepetidoExceptionFault" message="tns:IProveedores_CrearProveedor_RepetidoExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerProveedor">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProveedores/ObtenerProveedor" message="tns:IProveedores_ObtenerProveedor_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProveedores/ObtenerProveedorResponse" message="tns:IProveedores_ObtenerProveedor_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ModificarProveedor">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProveedores/ModificarProveedor" message="tns:IProveedores_ModificarProveedor_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProveedores/ModificarProveedorResponse" message="tns:IProveedores_ModificarProveedor_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EliminarProveedor">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProveedores/EliminarProveedor" message="tns:IProveedores_EliminarProveedor_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProveedores/EliminarProveedorResponse" message="tns:IProveedores_EliminarProveedor_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarProveedores">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProveedores/ListarProveedores" message="tns:IProveedores_ListarProveedores_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProveedores/ListarProveedoresResponse" message="tns:IProveedores_ListarProveedores_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IProveedores" type="tns:IProveedores">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CrearProveedor">
+      <soap:operation soapAction="http://tempuri.org/IProveedores/CrearProveedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RepetidoExceptionFault">
+        <soap:fault use="literal" name="RepetidoExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerProveedor">
+      <soap:operation soapAction="http://tempuri.org/IProveedores/ObtenerProveedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModificarProveedor">
+      <soap:operation soapAction="http://tempuri.org/IProveedores/ModificarProveedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EliminarProveedor">
+      <soap:operation soapAction="http://tempuri.org/IProveedores/EliminarProveedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarProveedores">
+      <soap:operation soapAction="http://tempuri.org/IProveedores/ListarProveedores" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Proveedores">
+    <wsdl:port name="BasicHttpBinding_IProveedores" binding="tns:BasicHttpBinding_IProveedores">
+      <soap:address location="http://localhost:62083/Proveedores.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
