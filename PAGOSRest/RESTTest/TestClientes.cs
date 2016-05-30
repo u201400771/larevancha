@@ -17,7 +17,7 @@ namespace RESTTest
         [TestMethod]
         public void TestCrearClientes()
         {
-            string postdata = "{\"codigo\":\"000002\",\"nombre\":\"HECTOR\",\"direccion\":\"LIMA\"}";
+            string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\"\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
             byte[] data = Encoding.UTF8.GetBytes(postdata);
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
             req.Method = "POST";
@@ -30,9 +30,16 @@ namespace RESTTest
             string clienteJson = reader.ReadToEnd();
             JavaScriptSerializer js = new JavaScriptSerializer();
             Documento documentoCreado = js.Deserialize<Documento>(postdata);
-            Assert.AreEqual("000002", documentoCreado.ruc);
-            Assert.AreEqual("HECTOR", documentoCreado.numero_documento);
-            Assert.AreEqual("LIMA", documentoCreado.tipo_documento);
+            Assert.AreEqual("20100130201", documentoCreado.ruc);
+            Assert.AreEqual("F1110000001", documentoCreado.numero_documento);
+            Assert.AreEqual("FAC", documentoCreado.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoCreado.fecha_emision);
+            Assert.AreEqual("01-01-2016", documentoCreado.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoCreado.moneda);
+            Assert.AreEqual("HOLA", documentoCreado.glosa);
+            Assert.AreEqual(1400, documentoCreado.importe);
+            Assert.AreEqual("EMI", documentoCreado.estado);
+
         }
 
         [TestMethod]
