@@ -222,10 +222,10 @@ namespace RESTTest
             Assert.AreEqual("FAC", documentoObtenido.tipo_documento);
             Assert.AreEqual("01-01-2016", documentoObtenido.fecha_emision);
             Assert.AreEqual("01-01-2016", documentoObtenido.fecha_vencimiento);
-            Assert.AreEqual("SOL", documentoObtenido.moneda);
-            Assert.AreEqual("HOLA", documentoObtenido.glosa);
-            Assert.AreEqual(1400, documentoObtenido.importe);
-            Assert.AreEqual("EMI", documentoObtenido.estado);
+            Assert.AreEqual("SOL", documentoObtenido.moneda); 
+            Assert.AreEqual("HOLA", documentoObtenido.glosa); 
+            Assert.AreEqual(1400, documentoObtenido.importe); 
+            Assert.AreEqual("EMI", documentoObtenido.estado); 
         }
 
         [TestMethod]
