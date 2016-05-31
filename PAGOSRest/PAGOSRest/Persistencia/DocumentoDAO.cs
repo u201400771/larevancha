@@ -93,8 +93,8 @@ namespace PAGOSRest.Persistencia
         //        public void Eliminar(Cliente clienteAEliminar)
         public void Eliminar(string codigo)
         {
-            string sql = "DELETE FROM t_cliente WHERE codigo=@codigo";
-            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
+            string sql = "DELETE FROM documento WHERE numero_documento = @codigo";
+            using (SqlConnection con = new SqlConnection(ConexionUtil.Cadena))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))

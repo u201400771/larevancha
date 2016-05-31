@@ -81,29 +81,6 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestEliminarProducto()
-        {
-            // Prueba de eliminacion de producto via HTTP GET
-            HttpWebRequest req2 = (HttpWebRequest)WebRequest
-                .Create("http://localhost:1951/Documentos.svc/Documentos/123456");
-            req2.Method = "DELETE";
-            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
-            /*
-                        // Prueba de obtencion de producto via HTTP GET
-                        HttpWebRequest req2 = (HttpWebRequest)WebRequest
-                            .Create("http://localhost:1951/Clientes.svc/Clientes/123456");
-                        req2.Method = "GET";
-            */
-            HttpWebResponse res = (HttpWebResponse)req2.GetResponse();
-            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
-            string documentoJson2 = reader2.ReadToEnd();
-            JavaScriptSerializer js2 = new JavaScriptSerializer();
-            Documento documentoEliminado = js2.Deserialize<Documento>(documentoJson2);
-            Assert.IsNull(documentoEliminado);
-        }
-
-
-        [TestMethod]
         public void TestObtenerDocumento()
         {
             HttpWebRequest req2 = (HttpWebRequest)WebRequest.
@@ -148,6 +125,64 @@ namespace RESTTest
             Assert.AreEqual("LIMA", documentoModificado.tipo_documento);
         }
 
+        [TestMethod]
+        public void TestEliminarDocumento()
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
+
+                HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+                req2.Method = "GET";
+                HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+                StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+                string proveedorJson2 = reader2.ReadToEnd();
+                JavaScriptSerializer js2 = new JavaScriptSerializer();
+                Documento documentoObtenido = js2.Deserialize<Documento>(proveedorJson2);
+                Assert.AreEqual("", documentoObtenido.ruc);
+                Assert.AreEqual("", documentoObtenido.numero_documento);
+                Assert.AreEqual("", documentoObtenido.tipo_documento);
+                Assert.AreEqual("", documentoObtenido.fecha_emision);
+                Assert.AreEqual("", documentoObtenido.fecha_vencimiento);
+                Assert.AreEqual("", documentoObtenido.moneda);
+                Assert.AreEqual("", documentoObtenido.glosa);
+                Assert.AreEqual("", documentoObtenido.importe);
+                Assert.AreEqual("", documentoObtenido.estado);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("Documento no encontrado", mensaje);
+            }
+        }
+
+        [TestMethod]
+        public void TestEliminarExceptionGiradoPagado()
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("El documento ya se encuentra pagado", mensaje);
+            }
+        }
     }
 }
 
