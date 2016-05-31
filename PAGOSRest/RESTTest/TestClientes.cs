@@ -16,8 +16,7 @@ namespace RESTTest
     {
         [TestMethod]
         public void TestCrearClientes()
-        {
-            string postdata = "{\"codigo\":\"000002\",\"nombre\":\"HECTOR\",\"direccion\":\"LIMA\"}";
+        {   string postdata = "{\"codigo\":\"000002\",\"nombre\":\"HECTOR\",\"direccion\":\"LIMA\"}";
             byte[] data = Encoding.UTF8.GetBytes(postdata);
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
             req.Method = "POST";

@@ -12,9 +12,9 @@ namespace RESTTest
     {
         [TestMethod]
         public void CRUDTest()
-        {
 
-            string postdata = "{\"ruc\":\"123\",\"numero_documento\":\"123\",\"TIPO_DOCUMENTO\":\"123\",\"FECHA_EMISION\":\"23-02-1982\",\"FECHA_VENCIMIENTO\":\"23-02-1982\",\"MONEDA\":\"1\",\"GLOSA\":\"123\",\"IMPORTE\":\"12.0},\"ESTADO\":\"1\"}";
+        {
+            string postdata = "{\"ruc\":\"123\",\"numero_documento\":\"123\",\"TIPO_DOCUMENTO\":\"123\",\"FECHA_EMISION\":\"23-02-1982\",\"FECHA_VENCIMIENTO\":\"23-02-1982\",\"MONEDA\":\"1\",\"GLOSA\":\"123\",\"IMPORTE\":\"12.0\",\"ESTADO\":\"1\"}";
             byte[] data = Encoding.UTF8.GetBytes(postdata);
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
             req.Method = "POST";
