@@ -37,7 +37,7 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE codigo=@codigo";
+            string sql = "SELECT * FROM documento WHERE numero_documento=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
@@ -124,7 +124,7 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision = (DateTime)resultado["fecha_emision"],
+                                fecha_emision =  (DateTime)resultado["fecha_emision"],
                                 fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
