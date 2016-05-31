@@ -40,6 +40,14 @@ namespace PAGOSRest
 
         public void EliminarDocumento(string numero_documento)
         {
+            Documento documentoEncontrado = null;
+            documentoEncontrado = ObtenerDocumento(numero_documento);
+
+            if (documentoEncontrado.estado == "PAG")
+            {
+                throw new WebFaultException<string>("El documento ya se encuentra pagado", HttpStatusCode.NotImplemented);
+            }
+
             dao.Eliminar(numero_documento);
         }
 

@@ -90,16 +90,15 @@ namespace PAGOSRest.Persistencia
             return DocumentoModificado;
         }
 
-        //        public void Eliminar(Cliente clienteAEliminar)
-        public void Eliminar(string codigo)
+        public void Eliminar(string numero)
         {
-            string sql = "DELETE FROM t_cliente WHERE codigo=@codigo";
+            string sql = "DELETE FROM DOCUMENTO_PAGAR WHERE NUMERO_DOCUMENTO = @numero";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    com.Parameters.Add(new SqlParameter("@numero", numero));
                     com.ExecuteNonQuery();
                 }
             }
