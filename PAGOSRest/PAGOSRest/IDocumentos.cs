@@ -17,16 +17,16 @@ namespace PAGOSRest
         Documento CrearDocumento(Documento documentoACrear);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "Documentos/{codigo}", ResponseFormat = WebMessageFormat.Json)]
-        Documento ObtenerDocumento(string codigo);
+        [WebInvoke(Method = "GET", UriTemplate = "Documentos/{ruc}", ResponseFormat = WebMessageFormat.Json)]
+        Documento ObtenerDocumento(string ruc);
 
         [OperationContract]
         [WebInvoke(Method = "PUT", UriTemplate = "Documentos", ResponseFormat = WebMessageFormat.Json)]
         Documento ModificarDocumento(Documento documentoAModificar);
 
         [OperationContract]
-        [WebInvoke(Method = "DELETE", UriTemplate = "Documentos/{codigo}", ResponseFormat = WebMessageFormat.Json)]
-        void EliminarDocumento(string codigo);
+        [WebInvoke(Method = "DELETE", UriTemplate = "Documentos/{numero}", ResponseFormat = WebMessageFormat.Json)]
+        void EliminarDocumento(string numero);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Documentos", ResponseFormat = WebMessageFormat.Json)]
