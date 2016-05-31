@@ -53,6 +53,13 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
+                                fecha_emision = (DateTime)resultado["fecha_emision"],
+                                fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
+                                moneda = (string)resultado["moneda"],
+                                glosa = (string)resultado["glosa"],
+                                importe = (decimal)resultado["importe"],
+                                estado = (string)resultado["estado"],
+
                             };
                         }
                     }
@@ -121,8 +128,8 @@ namespace PAGOSRest.Persistencia
                                 fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
-                                importe = (float)resultado["importe"],
-                                estado = (string)resultado["estado"],
+                                importe = (decimal)resultado["importe"],
+                                estado = (string)resultado["estado"]
 
                             };
                             documentosEncontrados.Add(documentoEncontrado);
