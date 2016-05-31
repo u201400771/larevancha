@@ -12,10 +12,10 @@ using System.Web.Script.Serialization;
 namespace RESTTest
 {
     [TestClass]
-    public class TestClientes
+    public class TestDocumentos
     {
         [TestMethod]
-        public void TestCrearClientes()
+        public void TestCrearDocumentos()
         {
             string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\"\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
             byte[] data = Encoding.UTF8.GetBytes(postdata);
@@ -27,7 +27,7 @@ namespace RESTTest
             reqStream.Write(data, 0, data.Length);
             var res = (HttpWebResponse)req.GetResponse();
             StreamReader reader = new StreamReader(res.GetResponseStream());
-            string clienteJson = reader.ReadToEnd();
+            string documentoJson = reader.ReadToEnd();
             JavaScriptSerializer js = new JavaScriptSerializer();
             Documento documentoCreado = js.Deserialize<Documento>(postdata);
             Assert.AreEqual("20100130201", documentoCreado.ruc);
@@ -104,19 +104,26 @@ namespace RESTTest
 
 
         [TestMethod]
-        public void TestObtenerCliente()
+        public void TestObtenerDocumento()
         {
             HttpWebRequest req2 = (HttpWebRequest)WebRequest.
-                Create("http://localhost:1951/Clientes.svc/Clientes/111111");
+                Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
             req2.Method = "GET";
             HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
             StreamReader reader2 = new StreamReader(res2.GetResponseStream());
-            string clienteJson2 = reader2.ReadToEnd();
+            string documentoJson2 = reader2.ReadToEnd();
             JavaScriptSerializer js2 = new JavaScriptSerializer();
-            Documento clienteObtenido = js2.Deserialize<Documento>(clienteJson2);
-            Assert.AreEqual("111111", clienteObtenido.ruc);
-            Assert.AreEqual("JUAN", clienteObtenido.numero_documento);
-            Assert.AreEqual("CUZCO", clienteObtenido.tipo_documento);
+            Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
+            Assert.AreEqual("20515995197", documentoObtenido.ruc);
+            Assert.AreEqual("F1110000001", documentoObtenido.numero_documento);
+            Assert.AreEqual("FAC", documentoObtenido.tipo_documento);
+            Assert.AreEqual("05/05/2016 05:00:00 a.m.", documentoObtenido.fecha_emision.ToString());
+            Assert.AreEqual("05/05/2016 05:00:00 a.m.", documentoObtenido.fecha_vencimiento.ToString());
+            Assert.AreEqual("SOL", documentoObtenido.moneda);
+            Assert.AreEqual("LUZ", documentoObtenido.glosa);
+            Assert.AreEqual(1000, documentoObtenido.importe);
+            Assert.AreEqual("EMI", documentoObtenido.estado);
+
         }
 
         [TestMethod]
