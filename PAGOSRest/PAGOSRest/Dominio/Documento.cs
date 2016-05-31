@@ -31,7 +31,7 @@ namespace PAGOSRest.Dominio
         public string glosa { get; set; }
 
         [DataMember]
-        public float importe { get; set; }
+        public decimal importe { get; set; }
 
         [DataMember]
         public string estado { get; set; }
