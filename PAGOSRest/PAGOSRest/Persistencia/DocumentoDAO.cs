@@ -37,13 +37,13 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE numero_documento=@codigo";
+            string sql = "SELECT * FROM documento WHERE numero_documento=@numero_documento";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    com.Parameters.Add(new SqlParameter("@numero_documento", codigo));
                     using (SqlDataReader resultado = com.ExecuteReader())
                     {
                         if (resultado.Read())
@@ -90,16 +90,15 @@ namespace PAGOSRest.Persistencia
             return DocumentoModificado;
         }
 
-        //        public void Eliminar(Cliente clienteAEliminar)
-        public void Eliminar(string codigo)
+        public void Eliminar(string numero)
         {
-            string sql = "DELETE FROM t_cliente WHERE codigo=@codigo";
+            string sql = "DELETE FROM DOCUMENTO_PAGAR WHERE NUMERO_DOCUMENTO = @numero";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    com.Parameters.Add(new SqlParameter("@numero", numero));
                     com.ExecuteNonQuery();
                 }
             }
@@ -124,7 +123,7 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision =  (DateTime)resultado["fecha_emision"],
+                                fecha_emision = (DateTime)resultado["fecha_emision"],
                                 fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
