@@ -37,7 +37,7 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE codigo=@codigo";
+            string sql = "SELECT * FROM documento WHERE numero_documento=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();

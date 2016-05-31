@@ -28,9 +28,9 @@ namespace PAGOSRest
             return dao.Crear(documentoACrear);
         }
 
-        public Documento ObtenerDocumento(string ruc)
+        public Documento ObtenerDocumento(string codigo)
         {
-            return dao.Obtener(ruc);
+            return dao.Obtener(codigo);
         }
 
         public Documento ModificarDocumento(Documento documentoAModificar)
