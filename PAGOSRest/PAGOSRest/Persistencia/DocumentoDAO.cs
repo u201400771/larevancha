@@ -37,7 +37,7 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE ruc = @ruc";
+            string sql = "SELECT * FROM documento WHERE codigo=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
@@ -53,12 +53,13 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision = resultado["fecha_emision"].ToString(),
-                                fecha_vencimiento = resultado["fecha_vencimiento"].ToString(),
+                                fecha_emision = (DateTime)resultado["fecha_emision"],
+                                fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
-                                importe = resultado["importe"].ToString(),
+                                importe = (decimal)resultado["importe"],
                                 estado = (string)resultado["estado"],
+
                             };
                         }
                     }
@@ -123,12 +124,12 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision = (string)resultado["fecha_emision"],
-                                fecha_vencimiento = (string)resultado["fecha_vencimiento"],
+                                fecha_emision = (DateTime)resultado["fecha_emision"],
+                                fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
-                                importe = (string)resultado["importe"],
-                                estado = (string)resultado["estado"],
+                                importe = (decimal)resultado["importe"],
+                                estado = (string)resultado["estado"]
 
                             };
                             documentosEncontrados.Add(documentoEncontrado);
