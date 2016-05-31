@@ -54,7 +54,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Documento.cs" />
-    <Compile Include="DocumentosTests.cs" />
     <Compile Include="TestClientes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextDocumeto.cs" />
