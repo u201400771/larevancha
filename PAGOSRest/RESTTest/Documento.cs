@@ -15,8 +15,7 @@ namespace RESTTest
         public DateTime fecha_vencimiento { get; set; }
         public string moneda { get; set; }
         public string glosa { get; set; }
-        public float importe { get; set; }
+        public decimal importe { get; set; }
         public string estado { get; set; }
-
     }
 }
