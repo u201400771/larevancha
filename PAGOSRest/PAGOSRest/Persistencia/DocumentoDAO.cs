@@ -37,13 +37,13 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE codigo=@codigo";
+            string sql = "SELECT * FROM documento WHERE numero_documento=@numero_documento";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    com.Parameters.Add(new SqlParameter("@numero_documento", codigo));
                     using (SqlDataReader resultado = com.ExecuteReader())
                     {
                         if (resultado.Read())

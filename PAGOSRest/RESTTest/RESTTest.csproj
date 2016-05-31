@@ -56,7 +56,7 @@
     <Compile Include="Documento.cs" />
     <Compile Include="TestClientes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextDocumeto.cs" />
+    <Compile Include="TextDocumento.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
