@@ -47,7 +47,7 @@ namespace PAGOSRest
             {
                 throw new WebFaultException<string>("El documento ya se encuentra pagado", HttpStatusCode.NotImplemented);
             }
-
+            
             dao.Eliminar(codigo);
         }
 

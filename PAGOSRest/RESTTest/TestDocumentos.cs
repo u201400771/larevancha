@@ -166,7 +166,7 @@ namespace RESTTest
         [TestMethod]
         public void TestEliminarExceptionGiradoPagado()
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000002");
             req.Method = "DELETE";
             try
             {

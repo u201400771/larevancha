@@ -90,11 +90,10 @@ namespace PAGOSRest.Persistencia
             return DocumentoModificado;
         }
 
-        //        public void Eliminar(Cliente clienteAEliminar)
         public void Eliminar(string codigo)
         {
             string sql = "DELETE FROM documento WHERE numero_documento = @codigo";
-            using (SqlConnection con = new SqlConnection(ConexionUtil.Cadena))
+            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
