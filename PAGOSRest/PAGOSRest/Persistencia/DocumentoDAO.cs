@@ -98,7 +98,7 @@ namespace PAGOSRest.Persistencia
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@numero", numero));
+                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
                     com.ExecuteNonQuery();
                 }
             }
