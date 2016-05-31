@@ -38,9 +38,17 @@ namespace PAGOSRest
             return dao.Modificar(documentoAModificar);
         }
 
-        public void EliminarDocumento(string numero_documento)
+        public void EliminarDocumento(string codigo)
         {
-            dao.Eliminar(numero_documento);
+            Documento documentoEncontrado = null;
+            documentoEncontrado = ObtenerDocumento(codigo);
+
+            if (documentoEncontrado.estado != "EMI")
+            {
+                throw new WebFaultException<string>("El documento ya se encuentra pagado", HttpStatusCode.NotImplemented);
+            }
+            
+            dao.Eliminar(codigo);
         }
 
         public List<Documento> ListarADocumentos()

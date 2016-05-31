@@ -81,29 +81,6 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestEliminarProducto()
-        {
-            // Prueba de eliminacion de producto via HTTP GET
-            HttpWebRequest req2 = (HttpWebRequest)WebRequest
-                .Create("http://localhost:1951/Documentos.svc/Documentos/123456");
-            req2.Method = "DELETE";
-            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
-            /*
-                        // Prueba de obtencion de producto via HTTP GET
-                        HttpWebRequest req2 = (HttpWebRequest)WebRequest
-                            .Create("http://localhost:1951/Clientes.svc/Clientes/123456");
-                        req2.Method = "GET";
-            */
-            HttpWebResponse res = (HttpWebResponse)req2.GetResponse();
-            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
-            string documentoJson2 = reader2.ReadToEnd();
-            JavaScriptSerializer js2 = new JavaScriptSerializer();
-            Documento documentoEliminado = js2.Deserialize<Documento>(documentoJson2);
-            Assert.IsNull(documentoEliminado);
-        }
-
-
-        [TestMethod]
         public void TestObtenerDocumento()
         {
             HttpWebRequest req2 = (HttpWebRequest)WebRequest.
@@ -149,51 +126,63 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestModificarDocumento()
+        public void TestEliminarDocumento()
         {
-            string postdata = "{\"ruc\":\"20100274621\",\"numero_documento\":\"F1230000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\"\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
-            byte[] data = Encoding.UTF8.GetBytes(postdata);
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
-            req.Method = "PUT";
-            req.ContentLength = data.Length;
-            req.ContentType = "application/json";
-            var reqStream = req.GetRequestStream();
-            reqStream.Write(data, 0, data.Length);
-            var res = (HttpWebResponse)req.GetResponse();
-            StreamReader reader = new StreamReader(res.GetResponseStream());
-            string documentoJson = reader.ReadToEnd();
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            Documento documentoModificado = js.Deserialize<Documento>(documentoJson);
-            Assert.AreEqual("20100274621", documentoModificado.ruc);
-            Assert.AreEqual("F1110000001", documentoModificado.numero_documento);
-            Assert.AreEqual("FAC", documentoModificado.tipo_documento);
-            Assert.AreEqual("01-01-2016", documentoModificado.fecha_emision);
-            Assert.AreEqual("01-01-2016", documentoModificado.fecha_vencimiento);
-            Assert.AreEqual("SOL", documentoModificado.moneda);
-            Assert.AreEqual("HOLA", documentoModificado.glosa);
-            Assert.AreEqual(1400, documentoModificado.importe);
-            Assert.AreEqual("EMI", documentoModificado.estado);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
 
-            HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
-            req2.Method = "GET";
-            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
-            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
-            string documentoJson2 = reader2.ReadToEnd();
-            JavaScriptSerializer js2 = new JavaScriptSerializer();
-            Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
-            Assert.AreEqual("20515995197", documentoObtenido.ruc);
-            Assert.AreEqual("F1110000001", documentoObtenido.numero_documento);
-            Assert.AreEqual("FAC", documentoObtenido.tipo_documento);
-            Assert.AreEqual("05/05/2016 05:00:00 a.m.", documentoObtenido.fecha_emision.ToString());
-            Assert.AreEqual("05/05/2016 05:00:00 a.m.", documentoObtenido.fecha_vencimiento.ToString());
-            Assert.AreEqual("SOL", documentoObtenido.moneda);
-            Assert.AreEqual("LUZ", documentoObtenido.glosa);
-            Assert.AreEqual(1000, documentoObtenido.importe);
-            Assert.AreEqual("EMI", documentoObtenido.estado);
-
+                HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+                req2.Method = "GET";
+                HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+                StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+                string proveedorJson2 = reader2.ReadToEnd();
+                JavaScriptSerializer js2 = new JavaScriptSerializer();
+                Documento documentoObtenido = js2.Deserialize<Documento>(proveedorJson2);
+                Assert.AreEqual("", documentoObtenido.ruc);
+                Assert.AreEqual("", documentoObtenido.numero_documento);
+                Assert.AreEqual("", documentoObtenido.tipo_documento);
+                Assert.AreEqual("", documentoObtenido.fecha_emision);
+                Assert.AreEqual("", documentoObtenido.fecha_vencimiento);
+                Assert.AreEqual("", documentoObtenido.moneda);
+                Assert.AreEqual("", documentoObtenido.glosa);
+                Assert.AreEqual("", documentoObtenido.importe);
+                Assert.AreEqual("", documentoObtenido.estado);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("Documento no encontrado", mensaje);
+            }
         }
 
-
+        [TestMethod]
+        public void TestEliminarExceptionGiradoPagado()
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000002");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("El documento ya se encuentra pagado", mensaje);
+            }
+        }
     }
 }
 
