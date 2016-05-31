@@ -183,6 +183,51 @@ namespace RESTTest
                 Assert.AreEqual("El documento ya se encuentra pagado", mensaje);
             }
         }
+
+        [TestMethod]
+        public void TestModificarDocumento()
+        {
+            string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\"\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+            req.Method = "PUT";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            var res = (HttpWebResponse)req.GetResponse();
+            StreamReader reader = new StreamReader(res.GetResponseStream());
+            string documentoJson = reader.ReadToEnd();
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            Documento documentoModificado = js.Deserialize<Documento>(documentoJson);
+            Assert.AreEqual("20100130201", documentoModificado.ruc);
+            Assert.AreEqual("F1110000001", documentoModificado.numero_documento);
+            Assert.AreEqual("FAC", documentoModificado.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoModificado.fecha_emision);
+            Assert.AreEqual("01-01-2016", documentoModificado.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoModificado.moneda);
+            Assert.AreEqual("HOLA", documentoModificado.glosa);
+            Assert.AreEqual(1400, documentoModificado.importe);
+            Assert.AreEqual("EMI", documentoModificado.estado);
+
+            HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req2.Method = "GET";
+            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+            string documentoJson2 = reader2.ReadToEnd();
+            JavaScriptSerializer js2 = new JavaScriptSerializer();
+            Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
+            Assert.AreEqual("20100130201", documentoObtenido.ruc);
+            Assert.AreEqual("F1110000001", documentoObtenido.numero_documento);
+            Assert.AreEqual("FAC", documentoObtenido.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoObtenido.fecha_emision);
+            Assert.AreEqual("01-01-2016", documentoObtenido.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoObtenido.moneda);
+            Assert.AreEqual("HOLA", documentoObtenido.glosa);
+            Assert.AreEqual(1400, documentoObtenido.importe);
+            Assert.AreEqual("EMI", documentoObtenido.estado);
+        }
+
     }
 }
 
