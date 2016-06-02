@@ -19,10 +19,10 @@ namespace PAGOSRest.Dominio
         public string tipo_documento { get; set; }
 
         [DataMember]
-        public DateTime fecha_emision { get; set; }
+        public string fecha_emision { get; set; }
 
         [DataMember]
-        public DateTime fecha_vencimiento { get; set; }
+        public string fecha_vencimiento { get; set; }
 
         [DataMember]
         public string moneda { get; set; }

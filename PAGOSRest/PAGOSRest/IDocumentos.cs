@@ -26,7 +26,7 @@ namespace PAGOSRest
 
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "Documentos/{codigo}", ResponseFormat = WebMessageFormat.Json)]
-        void EliminarDocumento(string numero);
+        void EliminarDocumento(string codigo);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "Documentos", ResponseFormat = WebMessageFormat.Json)]

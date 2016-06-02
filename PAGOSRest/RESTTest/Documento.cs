@@ -11,8 +11,8 @@ namespace RESTTest
         public string ruc { get; set; }
         public string numero_documento { get; set; }
         public string tipo_documento { get; set; }
-        public DateTime fecha_emision { get; set; }
-        public DateTime fecha_vencimiento { get; set; }
+        public string fecha_emision { get; set; }
+        public string fecha_vencimiento { get; set; }
         public string moneda { get; set; }
         public string glosa { get; set; }
         public decimal importe { get; set; }

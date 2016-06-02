@@ -53,8 +53,8 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision = (DateTime)resultado["fecha_emision"],
-                                fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
+                                fecha_emision = (string)resultado["fecha_emision"],
+                                fecha_vencimiento = (string)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
                                 importe = (decimal)resultado["importe"],
@@ -73,16 +73,21 @@ namespace PAGOSRest.Persistencia
         public Documento Modificar(Documento documentoAModificar)
         {
             Documento DocumentoModificado = null;
-            string sql = "UPDATE documento SET nombre=@nombre, direccion=@direccion WHERE codigo=@codigo";
+            string sql = "UPDATE documento SET ruc=@ruc,tipo_documento=@tipo_documento,fecha_emision=@fecha_emision,fecha_vencimiento=@fecha_vencimiento,moneda=@moneda,glosa=@glosa,importe=@importe,estado=@estado WHERE numero_documento=@numero_documento";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    //com.Parameters.Add(new SqlParameter("@idCliente", clienteAModificar.idCliente));
                     com.Parameters.Add(new SqlParameter("@ruc", documentoAModificar.ruc));
                     com.Parameters.Add(new SqlParameter("@numero_documento", documentoAModificar.numero_documento));
                     com.Parameters.Add(new SqlParameter("@tipo_documento", documentoAModificar.tipo_documento));
+                    com.Parameters.Add(new SqlParameter("@fecha_emision", documentoAModificar.fecha_emision));
+                    com.Parameters.Add(new SqlParameter("@fecha_vencimiento", documentoAModificar.fecha_vencimiento));
+                    com.Parameters.Add(new SqlParameter("@moneda", documentoAModificar.moneda));
+                    com.Parameters.Add(new SqlParameter("@glosa", documentoAModificar.glosa));
+                    com.Parameters.Add(new SqlParameter("@importe", documentoAModificar.importe));
+                    com.Parameters.Add(new SqlParameter("@estado", documentoAModificar.estado));
                     com.ExecuteNonQuery();
                 }
             }
@@ -90,10 +95,9 @@ namespace PAGOSRest.Persistencia
             return DocumentoModificado;
         }
 
-        //        public void Eliminar(Cliente clienteAEliminar)
         public void Eliminar(string codigo)
         {
-            string sql = "DELETE FROM t_cliente WHERE codigo=@codigo";
+            string sql = "DELETE FROM documento WHERE numero_documento=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
@@ -124,8 +128,8 @@ namespace PAGOSRest.Persistencia
                                 ruc = (string)resultado["ruc"],
                                 numero_documento = (string)resultado["numero_documento"],
                                 tipo_documento = (string)resultado["tipo_documento"],
-                                fecha_emision = (DateTime)resultado["fecha_emision"],
-                                fecha_vencimiento = (DateTime)resultado["fecha_vencimiento"],
+                                fecha_emision = (string)resultado["fecha_emision"],
+                                fecha_vencimiento = (string)resultado["fecha_vencimiento"],
                                 moneda = (string)resultado["moneda"],
                                 glosa = (string)resultado["glosa"],
                                 importe = (decimal)resultado["importe"],
