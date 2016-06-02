@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Desarrollado por Oscar Fabian
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ServiceModel;
 
