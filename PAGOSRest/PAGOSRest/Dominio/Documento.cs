@@ -35,7 +35,6 @@ namespace PAGOSRest.Dominio
 
         [DataMember]
         public string estado { get; set; }
-        //
 
     }
 }

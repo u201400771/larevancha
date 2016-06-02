@@ -37,13 +37,13 @@ namespace PAGOSRest.Persistencia
         public Documento Obtener(string codigo)
         {
             Documento DocumentoEncontrado = null;
-            string sql = "SELECT * FROM documento WHERE numero_documento=@numero_documento";
+            string sql = "SELECT * FROM documento WHERE numero_documento=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();
                 using (SqlCommand com = new SqlCommand(sql, con))
                 {
-                    com.Parameters.Add(new SqlParameter("@numero_documento", codigo));
+                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
                     using (SqlDataReader resultado = com.ExecuteReader())
                     {
                         if (resultado.Read())
@@ -90,9 +90,10 @@ namespace PAGOSRest.Persistencia
             return DocumentoModificado;
         }
 
+        //        public void Eliminar(Cliente clienteAEliminar)
         public void Eliminar(string codigo)
         {
-            string sql = "DELETE FROM documento WHERE numero_documento = @codigo";
+            string sql = "DELETE FROM t_cliente WHERE codigo=@codigo";
             using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
             {
                 con.Open();

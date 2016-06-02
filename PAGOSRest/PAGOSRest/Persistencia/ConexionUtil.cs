@@ -11,7 +11,7 @@ namespace PAGOSRest.Persistencia
         {
             get
             {
-                return "Data Source=(local);Initial Catalog=BD_PAGOS;Integrated Security=SSPI;";
+                return "Data Source=(local);Initial Catalog=TRABAJO_DSD;Integrated Security=SSPI;";
             }
         }
 
@@ -19,7 +19,7 @@ namespace PAGOSRest.Persistencia
         {
             get
             {
-                return "Data Source=(local);Initial Catalog=BD_PAGOS;Integrated Security=SSPI;";
+                return "Data Source=(local);Initial Catalog=TRABAJO_DSD;Integrated Security=SSPI;";
             }
         }
     }
