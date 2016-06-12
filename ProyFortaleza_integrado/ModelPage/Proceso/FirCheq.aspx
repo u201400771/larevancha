@@ -15,7 +15,12 @@
             </tr>
             <tr>
                 <td>
-                    <asp:Button ID="btnFirmar" runat="server" Text="Firmar Cheques" />
+                    <asp:Button ID="btnFirmar" runat="server" Text="Firmar Cheques" OnClick="btnFirmar_Click" />
+                </td>
+            </tr>
+            <tr>
+                <td class="errmsg">
+                    <asp:Label ID="lblError" runat="server"></asp:Label>
                 </td>
             </tr>
             <tr>
