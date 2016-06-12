@@ -10,7 +10,6 @@ using MensajeriaRest.Persistencia;
 
 namespace MensajeriaRest
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "Mensajes" en el código, en svc y en el archivo de configuración a la vez.
     // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Mensajes.svc o Mensajes.svc.cs en el Explorador de soluciones e inicie la depuración.
     public class Mensajes : IMensajes
     {
