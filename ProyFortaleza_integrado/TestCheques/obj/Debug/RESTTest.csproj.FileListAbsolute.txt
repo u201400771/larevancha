@@ -1,0 +1,5 @@
+G:\CHRISTOPHER2\CHEQUES\RESTTest\bin\Debug\RESTTest.dll
+G:\CHRISTOPHER2\CHEQUES\RESTTest\bin\Debug\RESTTest.pdb
+G:\CHRISTOPHER2\CHEQUES\RESTTest\obj\Debug\RESTTest.dll
+G:\CHRISTOPHER2\CHEQUES\RESTTest\obj\Debug\RESTTest.pdb
+G:\CHRISTOPHER2\CHEQUES\RESTTest\obj\Debug\RESTTest.csprojResolveAssemblyReference.cache

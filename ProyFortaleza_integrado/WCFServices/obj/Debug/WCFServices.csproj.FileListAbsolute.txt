@@ -1,0 +1,17 @@
+E:\DSD\ProyFortaleza\WCFServices\bin\WCFServices.dll.config
+E:\DSD\ProyFortaleza\WCFServices\bin\WCFServices.dll
+E:\DSD\ProyFortaleza\WCFServices\bin\WCFServices.pdb
+E:\DSD\ProyFortaleza\WCFServices\obj\Debug\WCFServices.csprojResolveAssemblyReference.cache
+E:\DSD\ProyFortaleza\WCFServices\obj\Debug\WCFServices.dll
+E:\DSD\ProyFortaleza\WCFServices\obj\Debug\WCFServices.pdb
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServices\bin\WCFServices.dll.config
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServices\bin\WCFServices.dll
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServices\bin\WCFServices.pdb
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServices\obj\Debug\WCFServices.dll
+C:\Users\carellanom\Downloads\UnitTests\ProyFortaleza\WCFServices\obj\Debug\WCFServices.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\bin\WCFServices.dll.config
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\bin\WCFServices.dll
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\bin\WCFServices.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\obj\Debug\WCFServices.dll
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\obj\Debug\WCFServices.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\WCFServices\obj\Debug\WCFServices.csprojResolveAssemblyReference.cache
