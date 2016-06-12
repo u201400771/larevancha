@@ -61,7 +61,8 @@
                                                     <a href="#">Procesos</a>
                                                     <ul>
                                                         <li><a href="../Proceso/DocxPagar.aspx">Documentos por Pagar</a></li>
-                                                        <li><a href="../Proceso/PagoDoc.aspx">Pago de Documentos</a></li>
+                                                        <li><a href="../Proceso/PagoDoc.aspx">Pagos</a></li>
+                                                        <li><a href="../Proceso/FirCheq.aspx">Firmar Cheques</a></li>
                                                     </ul>
                                                 </li>
                                                 <li>

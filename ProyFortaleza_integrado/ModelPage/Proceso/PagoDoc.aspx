@@ -16,7 +16,7 @@
         <table width="100%">
             <tr>
                 <td colspan="13">
-                    <h1>Pago de Documentos</h1>
+                    <h1>Pagos</h1>
                 </td>
             </tr>
             <tr>
