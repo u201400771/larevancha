@@ -1,0 +1,42 @@
+﻿body {
+    font-size: 62.5%;
+	font-family: arial, helvetica, sans-serif;
+}
+
+.content {
+    padding: 25px 20px;
+    min-height: 350px;
+}
+
+.title {
+    font-size: xx-large;
+}
+
+.boton {
+    background: #0A1312;
+    color: #FFFFFF;
+    height: 29px;
+    font-weight: bold;
+}
+
+.frame {
+    padding-left: 15px;
+    margin-left: 0px;
+}
+
+tr .subtitle {
+    font-size: small;
+    font-weight: bold;
+}
+
+.errmsg {
+    font-size: 10px;
+    color: #E10A14;
+    font-weight: bold;
+}
+
+hr {
+    background-color: #FADE70;
+    height: 3px;
+    border: 0;
+}

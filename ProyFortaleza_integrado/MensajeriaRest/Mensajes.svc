@@ -1,0 +1,6 @@
+﻿<%@ ServiceHost Language="C#"
+     Debug="true"
+     Service="MensajeriaRest.Mensajes"
+     CodeBehind="Mensajes.svc.cs"
+    Factory="System.ServiceModel.Activation.WebServiceHostFactory"
+     %>

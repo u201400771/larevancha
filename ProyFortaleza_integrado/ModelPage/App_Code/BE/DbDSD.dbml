@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TRABAJO_DSD" Class="DbDSDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=HN060851\SQLEXPRESS;Initial Catalog=TRABAJO_DSD;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="TRABAJO_DSDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.MAESTRO_BANCOS" Member="MAESTRO_BANCOS">
+    <Type Name="MAESTRO_BANCOS">
+      <Column Name="CODIGO_BANCO" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DESCRIPCION" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>
