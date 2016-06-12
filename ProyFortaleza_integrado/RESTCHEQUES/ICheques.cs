@@ -11,7 +11,7 @@ namespace RESTCHEQUES
 {
     // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de interfaz "ICheques" en el código y en el archivo de configuración a la vez.
     [ServiceContract]
-    public interface ICheques  //Creado por Christopher Flores
+    public interface ICheques  //Creado por Christopher Flores Parra
 
     {
         [OperationContract]

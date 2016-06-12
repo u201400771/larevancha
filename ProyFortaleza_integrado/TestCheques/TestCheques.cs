@@ -42,7 +42,7 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestObtenerCheque() //Creado por Christopher Flores
+        public void TestObtenerCheque() //Creado por Christopher Flores Parra
         {
             HttpWebRequest req2 = (HttpWebRequest)WebRequest.
                 Create("http://localhost:55017/Cheques.svc/Cheques/100");
