@@ -1,0 +1,10 @@
+E:\DSD\larevancha-master\PAGOSRest\RESTTest\bin\Debug\RESTTest.dll
+E:\DSD\larevancha-master\PAGOSRest\RESTTest\bin\Debug\RESTTest.pdb
+E:\DSD\larevancha-master\PAGOSRest\RESTTest\obj\Debug\RESTTest.csprojResolveAssemblyReference.cache
+E:\DSD\larevancha-master\PAGOSRest\RESTTest\obj\Debug\RESTTest.dll
+E:\DSD\larevancha-master\PAGOSRest\RESTTest\obj\Debug\RESTTest.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\RESTTest\bin\Debug\RESTTest.dll
+D:\EPECAM\larevancha2\ProyFortaleza\RESTTest\bin\Debug\RESTTest.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\RESTTest\obj\Debug\RESTTest.dll
+D:\EPECAM\larevancha2\ProyFortaleza\RESTTest\obj\Debug\RESTTest.pdb
+D:\EPECAM\larevancha2\ProyFortaleza\RESTTest\obj\Debug\RESTTest.csprojResolveAssemblyReference.cache

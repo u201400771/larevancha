@@ -1,0 +1,17 @@
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\PAGOSRest.dll.config
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\PAGOSRest.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\PAGOSRest.pdb
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.Agent.Intercept.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.ApplicationInsights.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.ApplicationInsights.xml
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\obj\Debug\PAGOSRest.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\obj\Debug\PAGOSRest.pdb
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.DependencyCollector.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.Web.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.WindowsServer.dll
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.DependencyCollector.xml
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.Web.xml
+E:\DSD\larevancha-master\PAGOSRest\PAGOSRest\bin\Microsoft.AI.WindowsServer.xml
