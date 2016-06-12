@@ -14,7 +14,7 @@ namespace RESTTest
     {
 
         [TestMethod]
-        public void CrearCheques()
+        public void CrearCheques()  //Creado por Christopher Flores
         {
 
             string postdata = "{\"NUMERO_CHEQUE\":\"550\",\"RUC\":\"2123456789\",\"CODIGO_BANCO\":\"BVA\",\"FECHA_EMISION\":\"01-01-2016\",\"MONEDA\":\"SOL\",\"IMPORTE_TOTAL\":\"200.00\",\"ESTADO\":\"GIR\",\"TIPO_DOCUMENTO\":\"FAC\",\"NUMERO_DOCUMENTO\":\"001-9999\"}";
@@ -42,7 +42,7 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestObtenerCheque()
+        public void TestObtenerCheque() //Creado por Christopher Flores
         {
             HttpWebRequest req2 = (HttpWebRequest)WebRequest.
                 Create("http://localhost:55017/Cheques.svc/Cheques/100");
@@ -62,7 +62,7 @@ namespace RESTTest
         }
 
         [TestMethod]
-        public void TestEliminarCheque()
+        public void TestEliminarCheque() //Creado por Christopher Flores
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:55017/Cheques.svc/ChequesE/900");
             req.Method = "DELETE";
@@ -87,12 +87,13 @@ namespace RESTTest
                 string error = reader.ReadToEnd();
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string mensaje = js.Deserialize<string>(error);
+
                 Assert.AreEqual("El cheque no existe", mensaje);
             }
         }
 
         [TestMethod]
-        public void TestModificarCheque()
+        public void TestModificarCheque()  //Creado por Christopher Flores
         {
             string postdata = "{\"NUMERO_CHEQUE\":\"400\",\"RUC\":\"2999999999\",\"CODIGO_BANCO\":\"BVA\",\"FECHA_EMISION\":\"01-01-2016\",\"MONEDA\":\"USD\",\"IMPORTE_TOTAL\":\"300.00\",\"ESTADO\":\"GIR\"}";
             byte[] data = Encoding.UTF8.GetBytes(postdata);
