@@ -12,7 +12,7 @@ namespace RESTCHEQUES.Persistencia
         {
             get
             {
-                return "Data Source=CHRISTOPHER\\CHRIS;Initial Catalog=TRABAJO_DSD;Integrated Security=SSPI;";
+                return "Data Source=(local);Initial Catalog=TRABAJO_DSD;Integrated Security=SSPI;";
             }
         }
     }
