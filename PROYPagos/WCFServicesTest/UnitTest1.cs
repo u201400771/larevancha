@@ -26,6 +26,7 @@ namespace WCFServicesTest
             Assert.AreEqual("934253642", proveedorCreado.Telefono);
             Assert.AreEqual("sac@altavistasac.com.pe", proveedorCreado.Email);
         }
+
         [TestMethod]
         public void Test2CrearProveedorRepetido()
         {
@@ -93,22 +94,7 @@ namespace WCFServicesTest
             Assert.AreEqual("5323423", proveedorEncontrado[1].Telefono);
             Assert.AreEqual("sap@altavistasac.com", proveedorEncontrado[1].Email);
         }
-        [TestMethod]
-        public void TestListarProveedorOk()
-        {
-            ProveedoresWS.ProveedoresClient proxy = new ProveedoresWS.ProveedoresClient();
-            ProveedoresWS.Proveedor[] proveedorEncontrado = proxy.ListarProveedores();
-            Assert.AreEqual("10450963041", proveedorEncontrado[0].Ruc);
-            Assert.AreEqual("Natural", proveedorEncontrado[0].Tipo);
-            Assert.AreEqual("Oscar Fabián", proveedorEncontrado[0].RazonSocial);
-            Assert.AreEqual("966392383", proveedorEncontrado[0].Telefono);
-            Assert.AreEqual("oscare.fabiang@gmail.com", proveedorEncontrado[0].Email);
-            Assert.AreEqual("20453423411", proveedorEncontrado[1].Ruc);
-            Assert.AreEqual("Jurídica", proveedorEncontrado[1].Tipo);
-            Assert.AreEqual("Altavista SAC", proveedorEncontrado[1].RazonSocial);
-            Assert.AreEqual("5323423", proveedorEncontrado[1].Telefono);
-            Assert.AreEqual("sap@altavistasac.com", proveedorEncontrado[1].Email);
-        }
+        
         [TestMethod]
         public void Test6EliminarProveedorOk()
         {
