@@ -1,0 +1,673 @@
+/****************IMPLEMENTACION DE WS res*************************/
+/************** Pantalla Provedor Documentos.aspx.cs ****************/
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using BE;
+using System.Text;
+
+public partial class Consulta_Documento : System.Web.UI.Page
+{
+    DataTable dtDocumentos = new DataTable();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            cargarDatos();
+            CargarRuc();
+            cargarGrilla();
+            btnGrabar.Enabled = false;
+            btnModificar.Enabled = false;
+        }
+    }
+
+    private void CargarRuc()
+    {
+        ServiceReference1.ProveedoresClient client = new ServiceReference1.ProveedoresClient();
+        List<ServiceReference1.Proveedor> objs = client.ListarProveedores();
+
+        ddlRuc.DataTextField = "ruc";
+        ddlRuc.DataValueField = "ruc";
+        ddlRuc.DataSource = objs;
+        ddlRuc.DataBind(); 
+    }
+
+    private void cargarGrilla()
+    {
+        HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/all");
+        req2.Method = "GET";
+        HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+        StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+        string documentoJson2 = reader2.ReadToEnd();
+        JavaScriptSerializer js2 = new JavaScriptSerializer();
+        List<Documento> documentoObtenido = js2.Deserialize<List<Documento>>(documentoJson2);
+
+
+        gvResultados.DataSource = documentoObtenido;
+        gvResultados.DataBind(); 
+    }
+
+    private void cargarDatos()
+    {
+        txtFechaFin.Text = DateTime.Now.ToShortDateString();
+        txtFechaIni.Text = DateTime.Now.ToShortDateString();
+
+        DataTable dtMoneda = new DataTable();
+        dtMoneda.Columns.Add("IdMoneda");
+        dtMoneda.Columns.Add("DesMoneda");
+        DataRow drMoneda;
+        drMoneda = dtMoneda.NewRow(); drMoneda["IdMoneda"] = "0"; drMoneda["DesMoneda"] = "Seleccione..."; dtMoneda.Rows.Add(drMoneda);
+        drMoneda = dtMoneda.NewRow(); drMoneda["IdMoneda"] = "SOL"; drMoneda["DesMoneda"] = "SOL"; dtMoneda.Rows.Add(drMoneda);
+        drMoneda = dtMoneda.NewRow(); drMoneda["IdMoneda"] = "DOL"; drMoneda["DesMoneda"] = "DOL"; dtMoneda.Rows.Add(drMoneda);
+        ddlMoneda.DataSource = dtMoneda;
+        ddlMoneda.DataTextField = "DesMoneda";
+        ddlMoneda.DataValueField = "IdMoneda";
+        ddlMoneda.DataBind();
+
+        DataTable dtTipoDocumento = new DataTable();
+        dtTipoDocumento.Columns.Add("IdDocumento");
+        dtTipoDocumento.Columns.Add("DesDocumento");
+        DataRow drDocumento;
+        drDocumento = dtTipoDocumento.NewRow(); drDocumento["IdDocumento"] = "0"; drDocumento["DesDocumento"] = "Seleccione..."; dtTipoDocumento.Rows.Add(drDocumento);
+        drDocumento = dtTipoDocumento.NewRow(); drDocumento["IdDocumento"] = "FAC"; drDocumento["DesDocumento"] = "FAC"; dtTipoDocumento.Rows.Add(drDocumento);
+        drDocumento = dtTipoDocumento.NewRow(); drDocumento["IdDocumento"] = "RECIBO"; drDocumento["DesDocumento"] = "RECIBO"; dtTipoDocumento.Rows.Add(drDocumento);
+        ddlDocumento.DataSource = dtTipoDocumento;
+        ddlDocumento.DataTextField = "DesDocumento";
+        ddlDocumento.DataValueField = "IdDocumento";
+        ddlDocumento.DataBind();
+
+        DataTable dtEstado = new DataTable();
+        dtEstado.Columns.Add("IdEstado");
+        dtEstado.Columns.Add("DesEstado");
+        DataRow drEstado;
+        drEstado = dtEstado.NewRow(); drEstado["IdEstado"] = "0"; drEstado["DesEstado"] = "Seleccione..."; dtEstado.Rows.Add(drEstado);
+        drEstado = dtEstado.NewRow(); drEstado["IdEstado"] = "EMI"; drEstado["DesEstado"] = "EMI"; dtEstado.Rows.Add(drEstado);
+        drEstado = dtEstado.NewRow(); drEstado["IdEstado"] = "COBRADO"; drEstado["DesEstado"] = "COBRADO"; dtEstado.Rows.Add(drEstado);
+        ddlEstado.DataSource = dtEstado;
+        ddlEstado.DataTextField = "DesEstado";
+        ddlEstado.DataValueField = "IdEstado";
+        ddlEstado.DataBind();
+    }
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        cargarGrilla();
+    }
+    protected void gvResultados_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "Editar")
+        {
+            btnModificar.Enabled = true;
+            ddlRuc.Enabled = false;
+            ServiceReference1.ProveedoresClient client = new ServiceReference1.ProveedoresClient();
+            int index = Convert.ToInt32(e.CommandArgument);
+            string codigo = gvResultados.Rows[index].Cells[2].Text;
+
+            ServiceReference1.Proveedor obj = client.ObtenerProveedor(codigo);
+            string url = "http://localhost:1951/Documentos.svc/Documentos/" + txtNumDocumento.Text;
+
+            HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create(url);
+            req2.Method = "GET";
+            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+            string documentoJson2 = reader2.ReadToEnd();
+            JavaScriptSerializer js2 = new JavaScriptSerializer();
+            Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
+            ddlRuc.SelectedValue = documentoObtenido.ruc;
+            ddlMoneda.SelectedValue = documentoObtenido.moneda;
+            ddlEstado.SelectedValue = documentoObtenido.estado;
+            ddlDocumento.SelectedValue = documentoObtenido.tipo_documento;
+            txtImporte.Text = documentoObtenido.importe.ToString();
+            txtFechaFin.Text = documentoObtenido.fecha_vencimiento;
+            txtFechaIni.Text = documentoObtenido.fecha_emision;
+            txtGlosa.Text = documentoObtenido.glosa;
+            txtNumDocumento.Text = documentoObtenido.numero_documento;
+            
+
+        }
+        else if (e.CommandName == "Eliminar")
+        {
+
+            ServiceReference1.ProveedoresClient client = new ServiceReference1.ProveedoresClient();
+            int index = Convert.ToInt32(e.CommandArgument);
+            string codigo = gvResultados.Rows[index].Cells[2].Text;
+
+            ServiceReference1.Proveedor obj = client.ObtenerProveedor(codigo);
+            int val = client.EliminarProveedor(codigo);
+            if (val.Equals(1)) { lblMensaje.Text = "No se pudo eliminar"; }
+            else if (val.Equals(0)) { lblMensaje.Text = "Se eliminó correctamente"; }
+            else lblMensaje.Text = "Se eliminó correctamente";
+
+            cargarGrilla();
+
+        }
+    }
+    protected void btnNuevo_Click(object sender, EventArgs e)
+    {
+        btnGrabar.Enabled = true;
+        ddlEstado.SelectedValue = "0";
+        txtFechaFin.Text = "";
+        txtFechaIni.Text = "";
+        ddlMoneda.SelectedValue = "0";
+        ddlDocumento.SelectedValue = "0";
+        ddlEstado.SelectedValue = "0";
+        txtNumDocumento.Text = "";
+        txtGlosa.Text = "";
+        txtImporte.Text = "";
+        txtFechaFin.Text = DateTime.Now.ToShortDateString();
+        txtFechaIni.Text = DateTime.Now.ToShortDateString();
+
+    }
+
+    protected void btnGrabar_Click(object sender, EventArgs e)
+    {
+        string postdata = "{\"ruc\":\""+ddlRuc.SelectedValue.ToString()+"\",\"numero_documento\":\""+txtNumDocumento.Text+"\",\"tipo_documento\":\""+ddlDocumento.SelectedValue.ToString()+"\",\"fecha_emision\":\""+txtFechaIni.Text+"\",\"fecha_vencimiento\":\""+txtFechaFin.Text+"\",\"moneda\":\""+ddlMoneda.SelectedValue.ToString()+"\",\"glosa\":\""+txtGlosa.Text+"\",\"importe\":\""+txtImporte.Text+"\",\"estado\":\""+ddlEstado.SelectedValue.ToString()+"\"}";
+        //string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\",\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
+        byte[] data = Encoding.UTF8.GetBytes(postdata);
+        HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+        req.Method = "POST";
+        req.ContentLength = data.Length;
+        req.ContentType = "application/json";
+        var reqStream = req.GetRequestStream();
+        reqStream.Write(data, 0, data.Length);
+        var res = (HttpWebResponse)req.GetResponse();
+        StreamReader reader = new StreamReader(res.GetResponseStream());
+        string documentoJson = reader.ReadToEnd();
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Documento documentoCreado = js.Deserialize<Documento>(postdata);
+    }
+    protected void btnEditar_Click(object sender, EventArgs e)
+    {
+        string postdata = "{\"ruc\":\"" + ddlRuc.SelectedValue.ToString() + "\",\"numero_documento\":\"" + txtNumDocumento.Text + "\",\"tipo_documento\":\"" + ddlDocumento.SelectedValue.ToString() + "\",\"fecha_emision\":\"" + txtFechaIni.Text + "\",\"fecha_vencimiento\":\"" + txtFechaFin.Text + "\",\"moneda\":\"" + ddlMoneda.SelectedValue.ToString() + "\",\"glosa\":\"" + txtGlosa.Text + "\",\"importe\":\"" + txtImporte.Text + "\",\"estado\":\"" + ddlEstado.SelectedValue.ToString() + "\"}";
+        //string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"31-01-2016\",\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1500\",\"estado\":\"EMI\"}";
+        byte[] data = Encoding.UTF8.GetBytes(postdata);
+        HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+        req.Method = "PUT";
+        req.ContentLength = data.Length;
+        req.ContentType = "application/json";
+        var reqStream = req.GetRequestStream();
+        reqStream.Write(data, 0, data.Length);
+        var res = (HttpWebResponse)req.GetResponse();
+        StreamReader reader = new StreamReader(res.GetResponseStream());
+        string documentoJson = reader.ReadToEnd();
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Documento documentoModificado = js.Deserialize<Documento>(documentoJson); 
+    }
+}
+/**************** RESTFortaleza / Documentos.svc.cs********************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Text;
+using RESTFortaleza.Dominio;
+using RESTFortaleza.Persistencia;
+using System.ServiceModel.Web;
+using System.Net;
+
+namespace RESTFortaleza
+{
+    public class Documentos : IDocumentos
+    {
+        private DocumentoDAO dao = new DocumentoDAO();
+
+        public Documento CrearDocumento(Documento documentoACrear)
+        {
+
+            Documento DocumentoObtenido = dao.Obtener(documentoACrear.numero_documento);
+
+            if (DocumentoObtenido != null)
+            {
+                throw new WebFaultException<string>(
+                    "El cliente con codigo " + documentoACrear.numero_documento + " ya existe", HttpStatusCode.InternalServerError);
+            }
+            return dao.Crear(documentoACrear);
+        }
+
+        public Documento ObtenerDocumento(string codigo)
+        {
+            return dao.Obtener(codigo);
+        }
+
+        public Documento ModificarDocumento(Documento documentoAModificar)
+        {
+            return dao.Modificar(documentoAModificar);
+        }
+
+        public void EliminarDocumento(string codigo)
+        {
+            Documento documentoEncontrado = null;
+            documentoEncontrado = ObtenerDocumento(codigo);
+
+            if (documentoEncontrado.estado != "EMI")
+            {
+                throw new WebFaultException<string>("El documento ya se encuentra pagado", HttpStatusCode.NotImplemented);
+            }
+            
+            dao.Eliminar(codigo);
+        }
+
+        public List<Documento> ListarADocumentos()
+        {
+            return dao.listar();
+        }
+
+    }
+}
+
+/********************* RESTFortaleza / DocumentosDAO.cs *******************/
+using RESTFortaleza.Dominio;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+
+namespace RESTFortaleza.Persistencia
+{
+    public class DocumentoDAO
+    {
+        public Documento Crear(Documento documentoACrear)
+        {
+            Documento DocumentoCreado = null;
+            string sql = "INSERT INTO documento VALUES (@ruc, @numero_documento, @tipo_documento, @fecha_emision, @fecha_vencimiento, @moneda, @glosa, @importe, @estado)";
+            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand(sql, con))
+                {
+                    com.Parameters.Add(new SqlParameter("@ruc", documentoACrear.ruc));
+                    com.Parameters.Add(new SqlParameter("@numero_documento", documentoACrear.numero_documento));
+                    com.Parameters.Add(new SqlParameter("@tipo_documento", documentoACrear.tipo_documento));
+                    com.Parameters.Add(new SqlParameter("@fecha_emision", documentoACrear.fecha_emision));
+                    com.Parameters.Add(new SqlParameter("@fecha_vencimiento", documentoACrear.fecha_vencimiento));
+                    com.Parameters.Add(new SqlParameter("@moneda", documentoACrear.moneda));
+                    com.Parameters.Add(new SqlParameter("@glosa", documentoACrear.glosa));
+                    com.Parameters.Add(new SqlParameter("@importe", documentoACrear.importe));
+                    com.Parameters.Add(new SqlParameter("@estado", documentoACrear.estado));
+                    com.ExecuteNonQuery();
+                }
+            }
+            DocumentoCreado = Obtener(documentoACrear.numero_documento);
+            return DocumentoCreado;
+        }
+
+        public Documento Obtener(string codigo)
+        {
+            Documento DocumentoEncontrado = null;
+            string sql = "SELECT * FROM documento WHERE numero_documento=@codigo";
+            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand(sql, con))
+                {
+                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    using (SqlDataReader resultado = com.ExecuteReader())
+                    {
+                        if (resultado.Read())
+                        {
+                            DocumentoEncontrado = new Documento()
+                            {
+                                ruc = (string)resultado["ruc"],
+                                numero_documento = (string)resultado["numero_documento"],
+                                tipo_documento = (string)resultado["tipo_documento"],
+                                fecha_emision = (string)resultado["fecha_emision"],
+                                fecha_vencimiento = (string)resultado["fecha_vencimiento"],
+                                moneda = (string)resultado["moneda"],
+                                glosa = (string)resultado["glosa"],
+                                importe = (decimal)resultado["importe"],
+                                estado = (string)resultado["estado"],
+
+                            };
+                        }
+                    }
+                }
+            }
+            return DocumentoEncontrado;
+        }
+
+        public Documento Modificar(Documento documentoAModificar)
+        {
+            Documento DocumentoModificado = null;
+            string sql = "UPDATE documento SET ruc=@ruc,tipo_documento=@tipo_documento,fecha_emision=@fecha_emision,fecha_vencimiento=@fecha_vencimiento,moneda=@moneda,glosa=@glosa,importe=@importe,estado=@estado WHERE numero_documento=@numero_documento";
+            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand(sql, con))
+                {
+                    com.Parameters.Add(new SqlParameter("@ruc", documentoAModificar.ruc));
+                    com.Parameters.Add(new SqlParameter("@numero_documento", documentoAModificar.numero_documento));
+                    com.Parameters.Add(new SqlParameter("@tipo_documento", documentoAModificar.tipo_documento));
+                    com.Parameters.Add(new SqlParameter("@fecha_emision", documentoAModificar.fecha_emision));
+                    com.Parameters.Add(new SqlParameter("@fecha_vencimiento", documentoAModificar.fecha_vencimiento));
+                    com.Parameters.Add(new SqlParameter("@moneda", documentoAModificar.moneda));
+                    com.Parameters.Add(new SqlParameter("@glosa", documentoAModificar.glosa));
+                    com.Parameters.Add(new SqlParameter("@importe", documentoAModificar.importe));
+                    com.Parameters.Add(new SqlParameter("@estado", documentoAModificar.estado));
+                    com.ExecuteNonQuery();
+                }
+            }
+            DocumentoModificado = Obtener(documentoAModificar.numero_documento);
+            return DocumentoModificado;
+        }
+
+        public void Eliminar(string codigo)
+        {
+            string sql = "DELETE FROM documento WHERE numero_documento=@codigo";
+            using (SqlConnection con = new SqlConnection(ConexionUtil.CadenaClientes))
+            {
+                con.Open();
+                using (SqlCommand com = new SqlCommand(sql, con))
+                {
+                    com.Parameters.Add(new SqlParameter("@codigo", codigo));
+                    com.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public List<Documento> listar()
+        {
+            List<Documento> documentosEncontrados = new List<Documento>();
+            Documento documentoEncontrado = default(Documento);
+            string sql = "SELECT * FROM documento";
+            using (SqlConnection conexion = new SqlConnection(ConexionUtil.CadenaClientes))
+            {
+                conexion.Open();
+                using (SqlCommand comando = new SqlCommand(sql, conexion))
+                {
+                    using (SqlDataReader resultado = comando.ExecuteReader())
+                    {
+                        while (resultado.Read())
+                        {
+                            documentoEncontrado = new Documento()
+                            {
+                                ruc = (string)resultado["ruc"],
+                                numero_documento = (string)resultado["numero_documento"],
+                                tipo_documento = (string)resultado["tipo_documento"],
+                                fecha_emision = (string)resultado["fecha_emision"],
+                                fecha_vencimiento = (string)resultado["fecha_vencimiento"],
+                                moneda = (string)resultado["moneda"],
+                                glosa = (string)resultado["glosa"],
+                                importe = (decimal)resultado["importe"],
+                                estado = (string)resultado["estado"]
+
+                            };
+                            documentosEncontrados.Add(documentoEncontrado);
+                        }
+                    }
+                }
+            }
+            return documentosEncontrados;
+        }
+
+    }
+}
+
+/****************** RESTTest / IDocumentos.cs ***************************/
+using RESTFortaleza.Dominio;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+
+namespace RESTFortaleza
+{
+    [ServiceContract]
+    public interface IDocumentos
+    {
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "Documentos", ResponseFormat = WebMessageFormat.Json)]
+        Documento CrearDocumento(Documento documentoACrear);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Documentos/{codigo}", ResponseFormat = WebMessageFormat.Json)]
+        Documento ObtenerDocumento(string codigo);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "Documentos", ResponseFormat = WebMessageFormat.Json)]
+        Documento ModificarDocumento(Documento documentoAModificar);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "Documentos/{codigo}", ResponseFormat = WebMessageFormat.Json)]
+        void EliminarDocumento(string codigo);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Documentos/all", ResponseFormat = WebMessageFormat.Json)]
+        List<Documento> ListarADocumentos();
+    }
+}
+/***************** RESTTest / TestDocumentos.cs *************************/
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Script.Serialization;
+
+namespace RESTTest
+{
+    [TestClass]
+    public class TestDocumentos
+    {
+        [TestMethod]
+        public void TestCrearDocumentos()
+        {
+            string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000081\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\",\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+            req.Method = "POST";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            var res = (HttpWebResponse)req.GetResponse();
+            StreamReader reader = new StreamReader(res.GetResponseStream());
+            string documentoJson = reader.ReadToEnd();
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            Documento documentoCreado = js.Deserialize<Documento>(postdata);
+            Assert.AreEqual("20100130201", documentoCreado.ruc);
+            Assert.AreEqual("F1110000001", documentoCreado.numero_documento);
+            Assert.AreEqual("FAC", documentoCreado.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoCreado.fecha_emision);
+            Assert.AreEqual("01-01-2016", documentoCreado.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoCreado.moneda);
+            Assert.AreEqual("HOLA", documentoCreado.glosa);
+            Assert.AreEqual(1400, documentoCreado.importe);
+            Assert.AreEqual("EMI", documentoCreado.estado);
+            //string responseText = string.Empty;
+            //try
+            //{
+            //    using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+            //    {
+            //        //...
+            //    }
+            //}
+            //catch (WebException wex)
+            //{
+            //    StringBuilder sb = new StringBuilder();
+            //    sb.AppendLine("ERROR:" + wex.Message + ". STATUS: " + wex.Status.ToString());
+
+            //    if (wex.Status == WebExceptionStatus.ProtocolError)
+            //    {
+            //        var response = ((HttpWebResponse)wex.Response);
+            //        sb.AppendLine(string.Format("Status Code : {0}", response.StatusCode));
+            //        sb.AppendLine(string.Format("Status Description : {0}", response.StatusDescription));
+
+            //        try
+            //        {
+            //            StreamReader reader = new StreamReader(response.GetResponseStream());
+            //            sb.AppendLine(reader.ReadToEnd());
+            //        }
+            //        catch (WebException ex) { throw; }
+            //    }
+
+            //    throw new Exception(sb.ToString(), wex);
+            //}
+            //catch (Exception ex) { throw; }
+
+        }
+
+        [TestMethod]
+        public void TestCrearClienteException()
+        {
+            string postdata = "{\"ruc\":\"20100130211\",\"numero_documento\":\"F1110000061\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"01-01-2016\",\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1400\",\"estado\":\"EMI\"}";
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+            req.Method = "POST";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            HttpWebResponse res = null;
+            try
+            {
+                res = (HttpWebResponse)req.GetResponse();
+                StreamReader reader = new StreamReader(res.GetResponseStream());
+                string documentoJson = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                Documento documentoCreado = js.Deserialize<Documento>(postdata);
+                Assert.AreEqual("20100130201", documentoCreado.ruc);
+                Assert.AreEqual("F1110000001", documentoCreado.numero_documento);
+                Assert.AreEqual("FAC", documentoCreado.tipo_documento);
+                Assert.AreEqual("01-01-2016", documentoCreado.fecha_emision);
+                Assert.AreEqual("01-01-2016", documentoCreado.fecha_vencimiento);
+                Assert.AreEqual("SOL", documentoCreado.moneda);
+                Assert.AreEqual("HOLA", documentoCreado.glosa);
+                Assert.AreEqual(1400, documentoCreado.importe);
+                Assert.AreEqual("EMI", documentoCreado.estado);
+            }
+            catch (WebException w)
+            {
+                HttpStatusCode code = ((HttpWebResponse)w.Response).StatusCode;
+                String mensaje = ((HttpWebResponse)w.Response).StatusDescription;
+                StreamReader sr = new StreamReader(w.Response.GetResponseStream());
+                string error = sr.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensajeException = js.Deserialize<string>(error);
+                Assert.AreEqual("El cliente con codigo F1110000001 ya existe", mensajeException);
+
+            }
+
+
+        }
+
+        [TestMethod]
+        public void TestObtenerDocumento()
+        {
+            HttpWebRequest req2 = (HttpWebRequest)WebRequest.
+                Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req2.Method = "GET";
+            HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+            StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+            string documentoJson2 = reader2.ReadToEnd();
+            JavaScriptSerializer js2 = new JavaScriptSerializer();
+            Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
+            Assert.AreEqual("20100130201", documentoObtenido.ruc);
+            Assert.AreEqual("F1110000001", documentoObtenido.numero_documento);
+            Assert.AreEqual("FAC", documentoObtenido.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoObtenido.fecha_emision);
+            Assert.AreEqual("01-01-2016", documentoObtenido.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoObtenido.moneda);
+            Assert.AreEqual("HOLA", documentoObtenido.glosa);
+            Assert.AreEqual(1400, documentoObtenido.importe);
+            Assert.AreEqual("EMI", documentoObtenido.estado);
+
+        }
+
+        [TestMethod]
+        public void TestEliminarDocumento()
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
+
+                HttpWebRequest req2 = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000001");
+                req2.Method = "GET";
+                HttpWebResponse res2 = (HttpWebResponse)req2.GetResponse();
+                StreamReader reader2 = new StreamReader(res2.GetResponseStream());
+                string documentoJson2 = reader2.ReadToEnd();
+                JavaScriptSerializer js2 = new JavaScriptSerializer();
+                Documento documentoObtenido = js2.Deserialize<Documento>(documentoJson2);
+                Assert.AreEqual(null, documentoObtenido);
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("El documento ya se encuentra pagado", mensaje);
+            }
+        }
+
+        [TestMethod]
+        public void TestEliminarExceptionGiradoPagado()
+        {
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos/F1110000002");
+            req.Method = "DELETE";
+            try
+            {
+                req.GetResponse();
+            }
+            catch (WebException e)
+            {
+                HttpStatusCode code = ((HttpWebResponse)e.Response).StatusCode;
+                string message = ((HttpWebResponse)e.Response).StatusDescription;
+                StreamReader reader = new StreamReader(e.Response.GetResponseStream());
+                string error = reader.ReadToEnd();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string mensaje = js.Deserialize<string>(error);
+                Assert.AreEqual("El documento ya se encuentra pagado", mensaje);
+            }
+        }
+
+        [TestMethod]
+        public void TestModificarDocumento()
+        {
+            string postdata = "{\"ruc\":\"20100130201\",\"numero_documento\":\"F1110000001\",\"tipo_documento\":\"FAC\",\"fecha_emision\":\"01-01-2016\",\"fecha_vencimiento\":\"31-01-2016\",\"moneda\":\"SOL\",\"glosa\":\"HOLA\",\"importe\":\"1500\",\"estado\":\"EMI\"}";
+            byte[] data = Encoding.UTF8.GetBytes(postdata);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://localhost:1951/Documentos.svc/Documentos");
+            req.Method = "PUT";
+            req.ContentLength = data.Length;
+            req.ContentType = "application/json";
+            var reqStream = req.GetRequestStream();
+            reqStream.Write(data, 0, data.Length); 
+            var res = (HttpWebResponse)req.GetResponse(); 
+            StreamReader reader = new StreamReader(res.GetResponseStream()); 
+            string documentoJson = reader.ReadToEnd(); 
+            JavaScriptSerializer js = new JavaScriptSerializer(); 
+            Documento documentoModificado = js.Deserialize<Documento>(documentoJson); 
+            Assert.AreEqual("20100130201", documentoModificado.ruc);
+            Assert.AreEqual("F1110000001", documentoModificado.numero_documento);
+            Assert.AreEqual("FAC", documentoModificado.tipo_documento);
+            Assert.AreEqual("01-01-2016", documentoModificado.fecha_emision);
+            Assert.AreEqual("31-01-2016", documentoModificado.fecha_vencimiento);
+            Assert.AreEqual("SOL", documentoModificado.moneda);
+            Assert.AreEqual("HOLA", documentoModificado.glosa); 
+            Assert.AreEqual(1500, documentoModificado.importe);
+            Assert.AreEqual("EMI", documentoModificado.estado); 
+        }
+
+        
+    }
+}
+
