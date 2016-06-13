@@ -10,7 +10,7 @@ using MensajeriaRest.Persistencia;
 
 namespace MensajeriaRest
 {
-    // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Mensajes.svc o Mensajes.svc.cs en el Explorador de soluciones e inicie la depuración.
+    
     public class Mensajes : IMensajes
     {
 
